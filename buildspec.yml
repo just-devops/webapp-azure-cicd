@@ -14,8 +14,8 @@ phases:
       - REPO_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME
       # fetching from s3 the access token we have created in the hub.docker to authenticate.
       # https://jrklein.com/2020/11/04/aws-codebuild-failed-due-to-docker-pull-rate-limit-solution-update-buildspec-yml-file/
-      - aws s3 cp s3://tf-ecs-continuous-deployment/.docker.key .docker.key
-      - docker login -u cpaschalidi --password-stdin < .docker.key
+      - aws s3 cp s3://tf-ecs-continuous-deployment/docker.key docker.key
+      - docker login -u cpaschalidi --password-stdin < docker.key
       - rm .docker.key
       # pulls image after being authenticated
       - docker pull $REPO_URI:latest || true
