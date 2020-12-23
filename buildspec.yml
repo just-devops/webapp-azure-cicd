@@ -29,6 +29,6 @@ phases:
       - docker push $REPO_URI:latest
       - docker push $REPO_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"react-webapp","imageUri":"%s"}]' "$REPO_URI:$IMAGE_TAG" | tee imagedefinitions.json
+      - printf '[{"name":"micro-api","imageUri":"%s"}]' "$REPO_URI:$IMAGE_TAG" | tee imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
