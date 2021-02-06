@@ -1,26 +1,43 @@
 on: [push]
 
-name: Linux_Container_Node_Workflow
+name: Build and deploy Docker app to Azure
+
+
+env:
+  AZURE_WEBAPP_NAME: reactweb
+  AZURE_CONTAINER_REGISTRY_NAME: reactwebapp
+  CONTAINER_REGISTRY: azurewebapps.azurecr.io
+  IMAGE_NAME_WITH_TAG: ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_CONTAINER_REGISTRY_NAME }}:${{ github.sha }}
+
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # checkout the repo
-      - name: 'Checkout GitHub Action'
+      - name: Checkout GitHub Action
         uses: actions/checkout@main
 
-      - name: 'Login via Azure CLI'
+
+      - name: Azure authentication
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+
+      - name: Azure container registry authentication
       - uses: azure/docker-login@v1
         with:
-          login-server: mycontainer.azurecr.io
+          login-server: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t mycontainer.azurecr.io/myapp:${{ github.sha }}
-          docker push mycontainer.azurecr.io/myapp:${{ github.sha }}
+          docker build . -t ${{ env.IMAGE_NAME_WITH_TAG }}
+          docker push ${{ env.IMAGE_NAME_WITH_TAG }}
+
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          images: ${{ env.IMAGE_NAME_WITH_TAG }}
       
