@@ -3,7 +3,7 @@ name: webapp cd worflow on azure
 on: [push]
 
 jobs:
-  build:
+  build-and-push-images-on-azure-registry:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,7 +11,7 @@ jobs:
 
       - uses: azure/docker-login@v1
         with:
-          login-server: mycontainer.azurecr.io
+          login-server: azurewebapps.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
