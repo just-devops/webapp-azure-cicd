@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Having a working version.
+          On Azure.
         </a>
       </header>
     </div>
