@@ -1,14 +1,26 @@
-name: webapp cd worflow on azure
-
 on: [push]
 
+name: Linux_Container_Node_Workflow
+
 jobs:
-  push-images-on-azure-registry:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      # checkout the repo
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
 
-      - uses: azure/login@v1
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: azure/docker-login@v1
+        with:
+          login-server: mycontainer.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t mycontainer.azurecr.io/myapp:${{ github.sha }}
+          docker push mycontainer.azurecr.io/myapp:${{ github.sha }}
+      
