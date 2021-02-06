@@ -4,9 +4,9 @@ name: Build and deploy Docker app to Azure
 
 
 env:
-  AZURE_WEBAPP_NAME: reactweb
-  CONTAINER_REGISTRY: azurewebapps.azurecr.io
-  IMAGE_NAME_WITH_TAG: azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}
+  AZURE_APP_SERVICE_NAME: reactwebapp-docker
+  AZURE_CONTAINER_REGISTRY: azurewebapps.azurecr.io
+  AZURE_IMAGE_NAME_WITH_TAG: azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}
 
 jobs:
   build-and-deploy:
@@ -22,18 +22,18 @@ jobs:
       - name: Azure container registry authentication
         uses: azure/docker-login@v1
         with:
-          login-server: ${{ env.CONTAINER_REGISTRY }}
+          login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
-          docker build . -t ${{ env.IMAGE_NAME_WITH_TAG }}
-          docker push ${{ env.IMAGE_NAME_WITH_TAG }}
+          docker build . -t ${{ env.AZURE_IMAGE_NAME_WITH_TAG }}
+          docker push ${{ env.AZURE_IMAGE_NAME_WITH_TAG }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          images: ${{ env.IMAGE_NAME_WITH_TAG }}
+          app-name: ${{ env.AZURE_APP_SERVICE_NAME }}
+          images: ${{ env.AZURE_IMAGE_NAME_WITH_TAG }}
 
       - name: Azure logout
         run: |
