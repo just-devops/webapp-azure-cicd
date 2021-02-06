@@ -3,7 +3,7 @@ on: [push]
 name: webapp cd worflow on azure
 
 jobs:
-  build-and-deploy:
+  build-and-push-docker-image:
     runs-on: ubuntu-latest
     steps:
       # checkout the repo
@@ -14,21 +14,3 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: azure/docker-login@v1
-        with:
-          login-server: reactwebappazurecicd.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-      - run: |
-          docker build . -t reactwebappazurecicd.azurecr.io/reactwebapp:${{ github.sha }}
-          docker push reactwebappazurecicd.azurecr.io/reactwebapp:${{ github.sha }}
-
-      - uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'reactwebappazurecicd'
-          images: 'reactwebappazurecicd.azurecr.io/reactwebapp:${{ github.sha }}'
-
-      - name: Azure logout
-        run: |
-          az logout
