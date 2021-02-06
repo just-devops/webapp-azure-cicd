@@ -1,4 +1,4 @@
-name: Linux Container Node Workflow
+name: webapp cd worflow on azure
 
 on: [push]
 
