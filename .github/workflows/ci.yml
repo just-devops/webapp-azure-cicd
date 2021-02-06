@@ -5,9 +5,8 @@ name: Build and deploy Docker app to Azure
 
 env:
   AZURE_WEBAPP_NAME: reactweb
-  AZURE_CONTAINER_REGISTRY_NAME: reactwebapp
   CONTAINER_REGISTRY: azurewebapps.azurecr.io
-  IMAGE_NAME_WITH_TAG: ${{ env.CONTAINER_REGISTRY }}/${{ env.AZURE_CONTAINER_REGISTRY_NAME }}:${{ github.sha }}
+  IMAGE_NAME_WITH_TAG: azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}
 
 jobs:
   build-and-deploy:
