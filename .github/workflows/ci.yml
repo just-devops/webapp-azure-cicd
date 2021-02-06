@@ -1,6 +1,6 @@
 on: [push]
 
-name: Linux_Container_Node_Workflow
+name: webapp cd worflow on azure
 
 jobs:
   build-and-deploy:
