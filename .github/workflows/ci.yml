@@ -3,24 +3,12 @@ name: webapp cd worflow on azure
 on: [push]
 
 jobs:
-  build-and-push-images-on-azure-registry:
+  push-images-on-azure-registry:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: azure/docker-login@v1
+      - uses: azure/login@v1
         with:
-          login-server: azurewebapps.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      - run: |
-          docker build . -t azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}
-          docker push azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}
-
-      - uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'reactwebapp'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'azurewebapps.azurecr.io/reactwebapp:${{ github.sha }}'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
