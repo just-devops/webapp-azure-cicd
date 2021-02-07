@@ -5,9 +5,7 @@ https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get
 Then you want to get your credentials and store them as secrets on gh. 
 
 ```
- az acr credential show \ 
-    --resource-group <name> \
-    --name <containterRegistryname>
+ az acr credential show -n <registryName> 
 ```
 
 ### AZURE_CREDENTIALS
@@ -18,5 +16,5 @@ az ad sp create-for-rbac --name "reactwebapp-az-kldshr" --sdk-auth --role contri
 
 resources: 
 
-https://docs.microsoft.com/en-us/azure/app-service/quickstart-custom-container?pivots=container-linux
+https://github.com/Azure/webapps-deploy
 https://docs.microsoft.com/en-us/azure/app-service/tutorial-custom-container?pivots=container-linux
