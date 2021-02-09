@@ -10,7 +10,7 @@ Then you want to get your credentials and store them as secrets on gh.
 
 ### AZURE_CREDENTIALS
 ```
-az ad sp create-for-rbac --name "reactwebapp-az-kldshr" --sdk-auth --role contributor     --scopes /subscriptions/04204ae7-830e-4071-9af6-0a81e41697d5/resourceGroups/azure-webapp-pipeline-rg/providers/Microsoft.Web/sites/reactwebapp-docker
+az ad sp create-for-rbac --name "principal07n6bpz8" --sdk-auth --role contributor --scopes /subscriptions/04204ae7-830e-4071-9af6-0a81e41697d5/resourceGroups/webapp-rg-demo-07n6bpz8
 ```
 
 
